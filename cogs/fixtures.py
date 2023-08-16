@@ -11,7 +11,7 @@ from datetime import datetime,timedelta
 from datetime import date
 from discord.ext import commands
 from discord import app_commands
-from utils import clamp_int
+from utils import clamp_int, make_discord_timestamp
 
 
 class FixturesCog(commands.Cog):
@@ -36,9 +36,11 @@ class FixturesCog(commands.Cog):
         )
 
         for fixture in fixture_list:
+            date_string = f"""{fixture.date} {date.today().year}  {fixture.time}"""
+            discord_aware_stamp = make_discord_timestamp(date_string)
             embed.add_field(
                 name=f"{fixture.team} - {fixture.comp}",
-                value=f"{fixture.time} - {fixture.date}",
+                value=f"{discord_aware_stamp}",
                 inline=False
             )
 
@@ -63,10 +65,12 @@ class FixturesCog(commands.Cog):
         else:
             delta = date_object - datetime.utcnow()
 
+        discord_timestamp = make_discord_timestamp(date_object)
+
         if delta.days > 0:
-            response = f"Next match is {fixture.team} in {delta.days} days, {delta.seconds//3600} hours, {(delta.seconds//60)%60} minutes"
+            response = f"Next match is {fixture.team} in {delta.days} days, {delta.seconds//3600} hours, {(delta.seconds//60)%60} minutes \n On {discord_timestamp}"
         elif delta.days == 0:
-            response = f"Next match is {fixture.team} in {delta.seconds//3600} hours, {(delta.seconds//60)%60} minutes"
+            response = f"Next match is {fixture.team} in {delta.seconds//3600} hours, {(delta.seconds//60)%60} minutes \n {discord_timestamp}"
         else:
             channel = discord.utils.get(interaction.guild.text_channels, name="live-games")
             response = f"There is a match playing right now! head over to <#{channel.id}>"

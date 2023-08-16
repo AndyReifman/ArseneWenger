@@ -28,3 +28,13 @@ def clamp_int(value, minimum, maximum):
     elif value > maximum:
         value = maximum
     return value
+
+def make_discord_timestamp(value):
+    """
+    Build a Discord timestamp from a string or date object
+    This is a Unix timestamp that displays a datetime to a Discord user in their localised timezone.
+    """
+    if isinstance(value, datetime.datetime):
+        return f"<t:{int(value.timestamp())}:F>"
+    if isinstance(value, str):
+        return f"<t:{int(datetime.datetime.strptime(value, '%b %d %Y %H:%M').timestamp())}:F>"
