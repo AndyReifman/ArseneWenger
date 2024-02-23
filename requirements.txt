@@ -2,7 +2,7 @@ discord.py==2.2.2
 bs4==0.0.1
 datetime==4.3
 tabulate==0.8.9
-Pillow==9.0.0
+Pillow==10.0.1
 pandas==1.4.0
 lxml==4.9.2
 python-fotmob-wrapper==0.1.8
