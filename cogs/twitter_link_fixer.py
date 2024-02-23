@@ -21,7 +21,10 @@ class TwitterLinkFixerCog(commands.Cog):
         if message.author.bot:
             return
         # Limit fixing Tweets to first found link, to prevent potential spam
-        twitter_url = self.find_twitter_urls(message.content.lower())[0]
+        try:
+            twitter_url = self.find_twitter_urls(message.content.lower())[0]
+        except IndexError:
+            return
         if twitter_url:
             await message.edit(suppress=True)
             await message.reply(f"Fx'ed that for you! {self.rewrite_url(twitter_url)}", mention_author=False)
