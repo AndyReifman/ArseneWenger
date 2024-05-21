@@ -6,5 +6,5 @@ Pillow==10.3.0
 pandas==1.4.0
 lxml==4.9.2
 python-fotmob-wrapper==0.1.8
-requests==2.31.0
+requests==2.32.0
 beautifulsoup4==4.10.0
